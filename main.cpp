@@ -165,6 +165,7 @@ void print_information_about_csp(const DWORD csp_type, LPSTR csp_name,  vector<p
     cout << setfill(' ') << setw(41) << "|#Algorithm Name" << setw(16) << "|#Algorithm ID" << setw(18)
          << "|#Algorithm Class" << setw(11) << "|#def len" << setw(11) << "|#min len" << setw(11) << "|#max len" << setw(16)  << "|#keysize inc" << "|"
          << endl;
+    int One_time_flag = 0;
     for (auto& it : mas) {
         if (GetLastError() != ERROR_INVALID_PARAMETER) {
             if (it.first.aiAlgid != 0xcccccccc){
@@ -203,7 +204,9 @@ void print_information_about_csp(const DWORD csp_type, LPSTR csp_name,  vector<p
                     cout << "|" << setw(15) << it.second << setw(10) << "|" << endl;
             }
         } else {
-            cout << "No information (Maybe)"
+            if (One_time_flag == 0)
+                cout << "|" << setw(123) << setfill(' ') << left  << "No information! (Maybe there is no hardware supporting)"  << "|" << endl;
+            One_time_flag++;
         }
     }
     cout << setfill('-') << "+" << setw(40) << "" << "+" << setw(15) << "" << "+" << setw(17) << "" << "+" << setw(10)
