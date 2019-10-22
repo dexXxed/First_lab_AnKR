@@ -121,7 +121,7 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
 
 
     PROV_ENUMALGS_EX param;
-    DWORD param2,
+    DWORD   param2,
             param_size = sizeof(param),
             param2_size = sizeof(param2);
 
