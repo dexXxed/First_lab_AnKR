@@ -24,7 +24,6 @@ struct st_prov {
     LPSTR name;
 };
 
-BOOL CryptAcquireContextA(HCRYPTPROV *pInt, LPCWSTR string);
 
 bool try_get_providers(int index, vector<st_prov>& list) {
     DWORD byte_count, tmp;
