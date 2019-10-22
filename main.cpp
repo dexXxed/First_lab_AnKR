@@ -56,7 +56,7 @@ void get_csp_containers(HCRYPTPROV handle, vector<string> &mas) {
     DWORD tmp;
 
     if (!CryptGetProvParam(handle, PP_ENUMCONTAINERS, (BYTE *) &buff, &tmp, CRYPT_FIRST))
-        cout << "In start reading containers" << endl;
+        cout << "In reading containers" << endl;
 
     mas.emplace_back(buff);
 
@@ -64,14 +64,7 @@ void get_csp_containers(HCRYPTPROV handle, vector<string> &mas) {
         mas.emplace_back(buff);
 
     if (GetLastError() != ERROR_NO_MORE_ITEMS)
-        cout << "In start reading containers" << endl;
-}
-
-bool name_in_array(const string &name, const vector<string> &mas) {
-    for (const string &a : mas)
-        if (a == name)
-            return true;
-    return false;
+        cout << "In reading containers (Error: ERROR_NO_MORE_ITEMS)" << endl;
 }
 
 void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector<pair<PROV_ENUMALGS_EX, DWORD>> &map,
@@ -91,7 +84,6 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
             if (!CryptAcquireContext(&handle, keycase_name.c_str(), csp_name, csp_type_code, CRYPT_NEWKEYSET)) {
                 if (GetLastError() == NTE_EXISTS) {
                     cout << "Key set " << keycase_name << " already exists, trying to open" << endl;
-                    cout << "keycontainer " << keycase_name << " already exist" << endl;
                     CryptReleaseContext(handle, 0);
 
                     if (!CryptAcquireContext(&handle,
@@ -108,7 +100,7 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
 
     get_csp_containers(handle, containers);
 
-    if (name_in_array(keycase_name, containers)) {
+    if (find(containers.begin(), containers.end(), keycase_name) != containers.end()) {
         cout << "Keycontainer " << keycase_name << " already exists" << endl;
 
         CryptReleaseContext(handle, 0);
