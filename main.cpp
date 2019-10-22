@@ -125,7 +125,6 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
             param_size = sizeof(param),
             param2_size = sizeof(param2);
 
-
     if (!CryptGetProvParam(handle, PP_ENUMALGS_EX, (BYTE *) &param, &param_size, CRYPT_FIRST))
         cout << "In starting reading algorithms: PP_ENUMALGS_EX" << endl;
 
@@ -140,7 +139,6 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
             map.emplace_back(pair<PROV_ENUMALGS_EX, DWORD>(param, param2));
         }
     }
-
 
     if (GetLastError() != ERROR_NO_MORE_ITEMS)
         cout << "In reading algorithms" << endl;
