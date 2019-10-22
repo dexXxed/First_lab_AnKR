@@ -58,8 +58,6 @@ void get_csp_containers(HCRYPTPROV handle, vector<string> &mas) {
     if (!CryptGetProvParam(handle, PP_ENUMCONTAINERS, (BYTE *) &buff, &tmp, CRYPT_FIRST))
         cout << "In reading containers" << endl;
 
-//    mas.emplace_back(buff);
-
     while (CryptGetProvParam(handle, PP_ENUMCONTAINERS, (BYTE *) &buff, &tmp, CRYPT_NEXT))
         mas.emplace_back(buff);
 
@@ -255,7 +253,6 @@ int main() {
     cin >> name;
 
     LPCTSTR container_name = TEXT(name.c_str()); // The name of the container.
-    vector<string> test;
     vector<st_prov> providers;
     vector<pair<PROV_ENUMALGS_EX, DWORD>> map;
 
@@ -268,13 +265,11 @@ int main() {
              [](const st_prov &a, const st_prov &b) { return a.prov_type < b.prov_type; });
         cout << "CSPs were read!" << endl;
 
-
         for (const st_prov &prov : providers) {
             cout << endl << endl;
             get_information_about_csp(prov.prov_type, prov.name, map, name);
             print_information_about_csp(prov.prov_type, prov.name, map);
         }
-
 
         system("PAUSE");
         return 0;
