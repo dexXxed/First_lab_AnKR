@@ -58,7 +58,7 @@ void get_csp_containers(HCRYPTPROV handle, vector<string> &mas) {
     if (!CryptGetProvParam(handle, PP_ENUMCONTAINERS, (BYTE *) &buff, &tmp, CRYPT_FIRST))
         cout << "In reading containers" << endl;
 
-    mas.emplace_back(buff);
+//    mas.emplace_back(buff);
 
     while (CryptGetProvParam(handle, PP_ENUMCONTAINERS, (BYTE *) &buff, &tmp, CRYPT_NEXT))
         mas.emplace_back(buff);
@@ -74,7 +74,7 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
 
     wcout << "Begin work with [" << csp_type_code << "] " << (LPCTSTR) (csp_name) << endl;
 
-    if (!CryptAcquireContext(&handle, nullptr, reinterpret_cast<LPCSTR>(reinterpret_cast<LPCWSTR>(csp_name)),
+    if (!CryptAcquireContext(&handle, nullptr, reinterpret_cast<LPCSTR>(csp_name),
                              csp_type_code, 0)) {
         if (GetLastError() == NTE_BAD_KEYSET) {
             cout << "Creating " << keycase_name << " keycontainer" << endl;
@@ -99,6 +99,9 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
     }
 
     get_csp_containers(handle, containers);
+
+    for(auto & container : containers)
+        cout << container << ' ';
 
     if (find(containers.begin(), containers.end(), keycase_name) != containers.end()) {
         cout << "Keycontainer " << keycase_name << " already exists" << endl;
@@ -215,6 +218,7 @@ void get_csp_handler(DWORD csp_type, LPTSTR csp_name, LPCTSTR container_name, HC
                 if (GetLastError() == NTE_EXISTS) {
                     CryptReleaseContext(handler, 0);
 
+
                     if (!CryptAcquireContext(&handler, container_name, csp_name, csp_type, 0))
                         throw descriptive_exception("In get_csp_handler with existing key container");
 
@@ -243,7 +247,9 @@ int main() {
     cin >> name;
 
     LPCTSTR container_name = TEXT(name.c_str()); // The name of the container.
+    vector<string> test;
     vector<st_prov> providers;
+    vector<pair<PROV_ENUMALGS_EX, DWORD>> map;
 
     try {
         get_csp_handler(csp_type, csp_name, container_name, hCryptProv);
@@ -254,13 +260,13 @@ int main() {
              [](const st_prov &a, const st_prov &b) { return a.prov_type < b.prov_type; });
         cout << "CSPs were read!" << endl;
 
-        vector<pair<PROV_ENUMALGS_EX, DWORD>> map;
 
         for (const st_prov &prov : providers) {
             cout << endl << endl;
             get_information_about_csp(prov.prov_type, prov.name, map, name);
             print_information_about_csp(prov.prov_type, prov.name, map);
         }
+
 
         system("PAUSE");
         return 0;
