@@ -4,13 +4,16 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
+
 using namespace std;
 
 
 class descriptive_exception : public exception {
 public:
     explicit descriptive_exception(const char *message) : msg_(message) {}
+
     char const *what() const noexcept override { return msg_; }
+
 private:
     const char *msg_;
 };
@@ -96,12 +99,11 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
 
     get_csp_containers(handle, containers);
 
-    if(containers.empty()) {
+    if (containers.empty()) {
         cout << "NO CREATED CONTAINERS" << endl;
-    }
-    else {
+    } else {
         cout << endl << "List of key containers:" << endl;
-        for(auto & container : containers)
+        for (auto &container : containers)
             cout << container << endl;
         cout << "End of a list of key containers" << endl << endl;
     }
