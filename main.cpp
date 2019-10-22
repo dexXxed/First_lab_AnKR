@@ -100,8 +100,16 @@ void get_information_about_csp(const DWORD csp_type_code, LPSTR csp_name, vector
 
     get_csp_containers(handle, containers);
 
-    for(auto & container : containers)
-        cout << container << ' ';
+    if(containers.empty()) {
+        cout << "NO CREATED CONTAINERS" << endl;
+    }
+    else {
+        cout << endl << "List of key containers:" << endl;
+        for(auto & container : containers)
+            cout << container << endl;
+        cout << "End of a list of key containers" << endl << endl;
+    }
+
 
     if (find(containers.begin(), containers.end(), keycase_name) != containers.end()) {
         cout << "Keycontainer " << keycase_name << " already exists" << endl;
