@@ -203,7 +203,6 @@ void print_information_about_csp(const DWORD csp_type, LPSTR csp_name, vector<pa
          << "" << "+" << setw(10) << "" << "+" << setw(10) << "" << "+" << setw(15) << "" << "+" << endl;
 }
 
-
 void get_csp_handler(DWORD csp_type, LPTSTR csp_name, LPCTSTR container_name, HCRYPTPROV &handler) {
 
     if (!CryptAcquireContext(&handler, container_name, csp_name, csp_type, 0)) {
@@ -262,7 +261,6 @@ int main() {
             get_information_about_csp(prov.prov_type, prov.name, map, name);
             print_information_about_csp(prov.prov_type, prov.name, map);
         }
-
 
         system("PAUSE");
         return 0;
