@@ -4,7 +4,6 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
-
 using namespace std;
 
 
@@ -29,7 +28,7 @@ bool try_get_providers(int index, vector<st_prov> &list) {
 
     if (!CryptEnumProviders(index, nullptr, 0, &tmp, nullptr, &byte_count)) {
         if (GetLastError() == ERROR_NO_MORE_ITEMS)
-            cout << "Got the end of a list" << endl;
+            cout << "Got the end of a list (1)" << endl;
         else
             throw descriptive_exception("Error 1 in try_get_providers");
         return false;
@@ -41,7 +40,7 @@ bool try_get_providers(int index, vector<st_prov> &list) {
     if (!CryptEnumProviders(index, nullptr, 0, &(prov.prov_type), prov.name,
                             &byte_count)) {
         if (GetLastError() == ERROR_NO_MORE_ITEMS)
-            cout << "End of a list" << endl;
+            cout << "Got the end of a list (2)" << endl;
         else
             throw descriptive_exception("Error 2 in try_get_providers");
         return false;
