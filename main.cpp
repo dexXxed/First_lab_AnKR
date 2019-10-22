@@ -235,7 +235,7 @@ void get_csp_handler(DWORD csp_type, LPTSTR csp_name, LPCTSTR container_name, HC
 }
 
 int main() {
-    HCRYPTPROV hCryptProv; // Handle for the cryptographic provider context.
+    HCRYPTPROV hCryptProv;
     DWORD csp_type = PROV_RSA_FULL;
     auto csp_name = (LPTSTR) MS_STRONG_PROV;
 
@@ -250,7 +250,6 @@ int main() {
         get_csp_handler(csp_type, csp_name, container_name, hCryptProv);
 
         cout << "Start reading CSPs" << endl;
-
         for (int i = 0; try_get_providers(i, providers); ++i);
         sort(providers.begin(), providers.end(),
              [](const st_prov &a, const st_prov &b) { return a.prov_type < b.prov_type; });
@@ -276,5 +275,4 @@ int main() {
         system("PAUSE");
         return -1;
     }
-
 }
