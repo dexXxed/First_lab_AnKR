@@ -10,9 +10,7 @@ using namespace std;
 class descriptive_exception : public exception {
 public:
     explicit descriptive_exception(const char *message) : msg_(message) {}
-
     char const *what() const noexcept override { return msg_; }
-
 private:
     const char *msg_;
 };
