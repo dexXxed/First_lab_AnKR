@@ -244,19 +244,19 @@ void get_csp_handler(DWORD csp_type, LPTSTR csp_name, LPCTSTR container_name, HC
 }
 
 int main() {
-    HCRYPTPROV hCryptProv;
-    DWORD csp_type = PROV_RSA_FULL;
-    auto csp_name = (LPTSTR) MS_STRONG_PROV;
-
-    string name;
-    cout << "Enter name of container, which will be created: ";
-    cin >> name;
-
-    LPCTSTR container_name = TEXT(name.c_str()); // The name of the container.
-    vector<st_prov> providers;
-    vector<pair<PROV_ENUMALGS_EX, DWORD>> map;
-
     try {
+        HCRYPTPROV hCryptProv;
+        DWORD csp_type = PROV_RSA_FULL;
+        auto csp_name = (LPTSTR) MS_STRONG_PROV;
+
+        string name;
+        cout << "Enter name of container, which will be created: ";
+        cin >> name;
+
+        LPCTSTR container_name = TEXT(name.c_str()); // The name of the container.
+        vector<st_prov> providers;
+        vector<pair<PROV_ENUMALGS_EX, DWORD>> map;
+
         get_csp_handler(csp_type, csp_name, container_name, hCryptProv);
 
         cout << "Start reading CSPs" << endl;
